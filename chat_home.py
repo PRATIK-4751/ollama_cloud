@@ -119,13 +119,6 @@ with col2:
     ### {EMOJIS["chat"]} Chat Interface
     Select a model from the sidebar and start chatting with Pratik!
     """)
-    user_input = st.text_area(
-        f"{EMOJIS['user']} Your Message:",
-        placeholder="Type your message here...",
-        height=100,
-        key="user_input"
-    )
-    send_button = st.button(f"{EMOJIS['arrow']} Send Message", use_container_width=True)
     st.markdown(f"### {EMOJIS['chat']} Conversation")
     if st.session_state.messages:
         for msg in st.session_state.messages:
@@ -150,6 +143,13 @@ with col2:
             Start a conversation with Pratik!
         </div>
         """, unsafe_allow_html=True)
+    user_input = st.text_area(
+        f"{EMOJIS['user']} Your Message:",
+        placeholder="Type your message here...",
+        height=100,
+        key="user_input"
+    )
+    send_button = st.button(f"{EMOJIS['arrow']} Send Message", use_container_width=True)
     if send_button and user_input.strip():
         st.session_state.messages.append({"role": "user", "content": user_input.strip()})
         messages = [
