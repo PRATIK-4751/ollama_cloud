@@ -7,18 +7,29 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Get API key from environment variable or Streamlit secrets
+
 def get_api_key():
+   
+    api_key = os.getenv("OLLAMA_API_KEY")
+
+    if not api_key:
+        try:
+            api_key = st.secrets["OLLAMA_API_KEY"]
+        except:
+            st.error("API Key not found! Please check your .env file or Streamlit secrets.")
     
-    try:
-        return st.secrets["OLLAMA_API_KEY"]
-    except:
-     
-        return os.getenv("OLLAMA_API_KEY")
+    return api_key
+
+# Initialize API key
+api_key = get_api_key()
+
+
+if not api_key:
+    st.error("API Key not found! Please check your .env file or Streamlit secrets.")
 
 client = ollama.Client(
     host='https://ollama.com',
-    headers={'Authorization': f'Bearer {get_api_key()}'}
+    headers={'Authorization': f'Bearer {api_key}'}
 )
 
 st.set_page_config(
