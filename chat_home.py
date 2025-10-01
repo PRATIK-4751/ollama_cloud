@@ -4,11 +4,21 @@ import time
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
+
+# Get API key from environment variable or Streamlit secrets
+def get_api_key():
+    
+    try:
+        return st.secrets["OLLAMA_API_KEY"]
+    except:
+     
+        return os.getenv("OLLAMA_API_KEY")
 
 client = ollama.Client(
     host='https://ollama.com',
-    headers={'Authorization': f'Bearer {os.getenv("OLLAMA_API_KEY")}'}
+    headers={'Authorization': f'Bearer {get_api_key()}'}
 )
 
 st.set_page_config(
