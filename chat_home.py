@@ -4,32 +4,11 @@ import time
 import os
 from dotenv import load_dotenv
 
-
 load_dotenv()
-
-
-def get_api_key():
-   
-    api_key = os.getenv("OLLAMA_API_KEY")
-
-    if not api_key:
-        try:
-            api_key = st.secrets["OLLAMA_API_KEY"]
-        except:
-            st.error("API Key not found! Please check your .env file or Streamlit secrets.")
-    
-    return api_key
-
-# Initialize API key
-api_key = get_api_key()
-
-
-if not api_key:
-    st.error("API Key not found! Please check your .env file or Streamlit secrets.")
 
 client = ollama.Client(
     host='https://ollama.com',
-    headers={'Authorization': f'Bearer {api_key}'}
+    headers={'Authorization': f'Bearer {os.getenv("OLLAMA_API_KEY")}'}
 )
 
 st.set_page_config(
